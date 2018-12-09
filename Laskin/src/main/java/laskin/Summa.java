@@ -19,18 +19,22 @@ public class Summa implements Komento{
     Sovelluslogiikka sovellus;
     private Button nollaa;
     private Button undo;
+    private int edellinen=0;
             
     public Summa(TextField tuloskentta, TextField syotekentta, Button nollaa, Button undo, Sovelluslogiikka sovellus){
         this.tuloskentta=tuloskentta;
         this.syotekentta=syotekentta;
         this.sovellus = sovellus;
         this.nollaa = nollaa;
+        this.undo=undo;
     }
-
+    
+ 
     @Override
     public void suorita() {
         int arvo = sovellus.getArvo(syotekentta);
         int tulos = sovellus.getTulos();
+        edellinen = tulos;
         tulos += arvo;
         syotekentta.setText("");
         tuloskentta.setText("" + tulos);
@@ -40,15 +44,21 @@ public class Summa implements Komento{
         } else {
             nollaa.disableProperty().set(false);
         }
-        //undo.disableProperty().set(false);
-      
+        undo.disableProperty().set(false);
     }
-        
 
     @Override
-    public void peru() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void peru(){
+        syotekentta.setText("");
+        tuloskentta.setText("" + edellinen);
+        sovellus.setTulos(edellinen);
+        if (edellinen==0) {
+            nollaa.disableProperty().set(true);
+        } else {
+            nollaa.disableProperty().set(false);
+        }
+        undo.disableProperty().set(false);
     }
 
-    
+ 
 }

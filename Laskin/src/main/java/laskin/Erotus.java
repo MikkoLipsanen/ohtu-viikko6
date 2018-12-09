@@ -19,26 +19,43 @@ public class Erotus implements Komento{
     Sovelluslogiikka sovellus;
     private Button nollaa;
     private Button undo;
-            
+    private int edellinen=0;
+    
     public Erotus(TextField tuloskentta, TextField syotekentta, Button nollaa, Button undo, Sovelluslogiikka sovellus){
         this.tuloskentta=tuloskentta;
         this.syotekentta=syotekentta;
         this.sovellus = sovellus;
+        this.undo=undo;
+        this.nollaa=nollaa;
     }
 
     @Override
     public void suorita() {
         int arvo = sovellus.getArvo(syotekentta);
         int tulos = sovellus.getTulos();
+        edellinen = tulos;
         tulos -= arvo;
         syotekentta.setText("");
         tuloskentta.setText("" + tulos);
         sovellus.setTulos(tulos);
-      
+        if (tulos==0) {
+            nollaa.disableProperty().set(true);
+        } else {
+            nollaa.disableProperty().set(false);
+        }
+        undo.disableProperty().set(false);
     }
 
     @Override
-    public void peru() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void peru(){
+        syotekentta.setText("");
+        tuloskentta.setText("" + edellinen);
+        sovellus.setTulos(edellinen);
+        if (edellinen==0) {
+            nollaa.disableProperty().set(true);
+        } else {
+            nollaa.disableProperty().set(false);
+        }
+        undo.disableProperty().set(false);
     }
 }

@@ -8,6 +8,7 @@ public class Sovelluslogiikka{
     private int tulos;
     private int arvo;
     
+    
     public Sovelluslogiikka(){
         
     }
